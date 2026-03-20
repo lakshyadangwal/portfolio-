@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Lakshya Dangwal — Frontend Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0f;
+    --surface: #141418;
+    --border: #222228;
+    --gold: #c9a84c;
+    --gold-light: #e8c96e;
+    --text: #e8e4dc;
+    --muted: #7a7870;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.4rem 3rem;
+    border-bottom: 1px solid transparent;
+    transition: border-color .3s, background .3s;
+  }
+  nav.scrolled {
+    border-color: var(--border);
+    background: rgba(13,13,15,0.92);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.04em;
+    color: var(--gold);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2.4rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg-text {
+    position: absolute;
+    bottom: -2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(8rem, 20vw, 18rem);
+    font-weight: 900;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(201,168,76,0.06);
+    pointer-events: none;
+    white-space: nowrap;
+    line-height: 1;
+    user-select: none;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 2.5rem;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.6;
+  }
+  .hero-eyebrow::after {
+    content: '';
+    display: block;
+    width: 2.5rem;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.6;
+  }
+
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.2rem, 8vw, 7rem);
+    font-weight: 900;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 0.3rem;
+  }
+  .hero-name em { font-style: italic; color: var(--gold); }
+
+  .hero-role {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.2rem, 2.5vw, 2rem);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--muted);
+    margin-bottom: 2.4rem;
+  }
+
+  .hero-desc {
+    max-width: 580px;
+    font-size: 0.95rem;
+    line-height: 1.85;
+    color: #a09c94;
+    margin-bottom: 3rem;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.8rem;
+    border-radius: 2px;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .25s;
+  }
+  .btn-primary {
+    background: var(--gold);
+    color: #0d0d0f;
+    border: 1px solid var(--gold);
+  }
+  .btn-primary:hover {
+    background: var(--gold-light);
+    border-color: var(--gold-light);
+    transform: translateY(-1px);
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-outline:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    transform: translateY(-1px);
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--muted);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .scroll-line {
+    width: 1px;
+    height: 3rem;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 1.8s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+
+  /* SECTIONS */
+  section { padding: 6rem 3rem; }
+
+  .section-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 1.5rem;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.6;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  /* ABOUT */
+  #about {
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .about-text p {
+    font-size: 0.97rem;
+    line-height: 1.9;
+    color: #a09c94;
+    margin-bottom: 1.2rem;
+  }
+  .about-text p strong { color: var(--text); font-weight: 500; }
+
+  .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 1.6rem;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--gold);
+    opacity: 0.5;
+  }
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+  .stat-label {
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* SKILLS */
+  #skills { border-top: 1px solid var(--border); }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  .skill-group {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 1.8rem;
+    border-radius: 4px;
+    transition: border-color .25s, transform .25s;
+  }
+  .skill-group:hover {
+    border-color: rgba(201,168,76,0.3);
+    transform: translateY(-3px);
+  }
+  .skill-group-title {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .skill-tag {
+    background: rgba(201,168,76,0.07);
+    border: 1px solid rgba(201,168,76,0.15);
+    color: #c4c0b8;
+    padding: 0.35rem 0.85rem;
+    border-radius: 2px;
+    font-size: 0.82rem;
+  }
+
+  /* PROJECTS */
+  #projects { border-top: 1px solid var(--border); }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color .25s, transform .25s;
+    text-decoration: none;
+    color: inherit;
+  }
+  .project-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--gold);
+    transition: width .35s ease;
+  }
+  .project-card:hover { border-color: rgba(201,168,76,0.25); transform: translateY(-4px); }
+  .project-card:hover::after { width: 100%; }
+
+  .project-header { display: flex; justify-content: space-between; align-items: flex-start; }
+  .project-icon {
+    width: 2.4rem; height: 2.4rem;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+  }
+  .project-arrow {
+    color: var(--muted);
+    font-size: 1rem;
+    transition: color .2s, transform .2s;
+  }
+  .project-card:hover .project-arrow { color: var(--gold); transform: translate(3px, -3px); }
+  .project-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .project-desc { font-size: 0.87rem; line-height: 1.75; color: var(--muted); flex: 1; }
+  .project-lang {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.75rem; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .lang-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  /* CONTACT */
+  #contact { border-top: 1px solid var(--border); text-align: center; }
+  .contact-inner { max-width: 600px; margin: 0 auto; }
+  .contact-inner .section-label { justify-content: center; }
+  .contact-inner .section-label::before { display: none; }
+  .contact-inner p { font-size: 0.97rem; line-height: 1.85; color: #a09c94; margin: 1.5rem 0 2.5rem; }
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+  .contact-item {
+    display: flex; align-items: center; gap: 0.6rem;
+    color: var(--muted); font-size: 0.85rem;
+    text-decoration: none;
+    padding: 0.7rem 1.4rem;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    transition: all .2s;
+    letter-spacing: 0.04em;
+  }
+  .contact-item:hover { color: var(--gold); border-color: rgba(201,168,76,0.4); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--muted);
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+  }
+  footer a { color: var(--muted); text-decoration: none; transition: color .2s; }
+  footer a:hover { color: var(--gold); }
+
+  /* ANIMATIONS */
+  .fade-in { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .fade-in.visible { opacity: 1; transform: none; }
+  .delay-1 { transition-delay: 0.1s; }
+  .delay-2 { transition-delay: 0.2s; }
+  .delay-3 { transition-delay: 0.3s; }
+  .delay-4 { transition-delay: 0.4s; }
+
+  @media (max-width: 768px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    #hero { padding: 0 1.5rem; }
+    section { padding: 4rem 1.5rem; }
+    #about { grid-template-columns: 1fr; gap: 3rem; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a class="nav-logo" href="#">LD.</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-bg-text">LAKSHYA</div>
+
+  <p class="hero-eyebrow fade-in">Available for opportunities</p>
+  <h1 class="hero-name fade-in delay-1">Lakshya<br><em>Dangwal</em></h1>
+  <p class="hero-role fade-in delay-2">Frontend Developer &amp; AI/DS Student</p>
+  <p class="hero-desc fade-in delay-3">
+    Building clean, expressive interfaces that sit at the intersection of design and intelligence. Pursuing BCA in AI &amp; Data Science — crafting the web, one pixel at a time.
+  </p>
+  <div class="hero-cta fade-in delay-4">
+    <a class="btn btn-primary" href="#projects">View Projects</a>
+    <a class="btn btn-outline" href="https://github.com/lakshyadangwal" target="_blank">GitHub &#8599;</a>
+    <a class="btn btn-outline" href="https://www.linkedin.com/in/lakshya-dangwal-42117a30b/" target="_blank">LinkedIn &#8599;</a>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<section id="about">
+  <div class="about-text">
+    <p class="section-label fade-in">About Me</p>
+    <h2 class="section-title fade-in delay-1">Turning curiosity<br>into code.</h2>
+    <p class="fade-in delay-2">
+      I'm <strong>Lakshya Dangwal</strong>, a BCA student specialising in <strong>Artificial Intelligence &amp; Data Science</strong>, with a deep passion for frontend development. I love crafting interfaces that are not just functional, but genuinely enjoyable to use.
+    </p>
+    <p class="fade-in delay-3">
+      From building chatbots to designing productivity tools, my work reflects a commitment to <strong>clean code, thoughtful design</strong>, and continuous learning. I work fluently across HTML, CSS, JavaScript, React, and Python — always pushing to learn what's next.
+    </p>
+    <p class="fade-in delay-3">
+      When I'm not coding, I'm exploring the ever-evolving landscape of AI and machine learning, finding ways to bring intelligent experiences to the frontend.
+    </p>
+  </div>
+  <div class="about-stats">
+    <div class="stat-card fade-in delay-1"><div class="stat-number">14+</div><div class="stat-label">Repositories</div></div>
+    <div class="stat-card fade-in delay-2"><div class="stat-number">5+</div><div class="stat-label">Tech Stack</div></div>
+    <div class="stat-card fade-in delay-3"><div class="stat-number">BCA</div><div class="stat-label">AI &amp; DS</div></div>
+    <div class="stat-card fade-in delay-4"><div class="stat-number">&#8734;</div><div class="stat-label">Curiosity</div></div>
+  </div>
+</section>
+
+<section id="skills">
+  <p class="section-label fade-in">What I Work With</p>
+  <h2 class="section-title fade-in delay-1">Skills &amp; Tools</h2>
+  <div class="skills-grid">
+    <div class="skill-group fade-in delay-1">
+      <p class="skill-group-title">Languages</p>
+      <div class="skill-tags">
+        <span class="skill-tag">HTML5</span><span class="skill-tag">CSS3</span>
+        <span class="skill-tag">JavaScript</span><span class="skill-tag">Python</span>
+        <span class="skill-tag">C++</span><span class="skill-tag">SQL</span><span class="skill-tag">Java</span>
+      </div>
+    </div>
+    <div class="skill-group fade-in delay-2">
+      <p class="skill-group-title">Frameworks &amp; Libraries</p>
+      <div class="skill-tags">
+        <span class="skill-tag">React</span><span class="skill-tag">FastAPI</span><span class="skill-tag">Vite</span>
+      </div>
+    </div>
+    <div class="skill-group fade-in delay-3">
+      <p class="skill-group-title">Tools &amp; Databases</p>
+      <div class="skill-tags">
+        <span class="skill-tag">Git</span><span class="skill-tag">GitHub</span>
+        <span class="skill-tag">MySQL</span><span class="skill-tag">VS Code</span>
+      </div>
+    </div>
+    <div class="skill-group fade-in delay-4">
+      <p class="skill-group-title">Currently Exploring</p>
+      <div class="skill-tags">
+        <span class="skill-tag">Machine Learning</span><span class="skill-tag">Data Analysis</span><span class="skill-tag">TypeScript</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <p class="section-label fade-in">What I've Built</p>
+  <h2 class="section-title fade-in delay-1">Projects</h2>
+  <div class="projects-grid">
+
+    <a class="project-card fade-in delay-1" href="https://github.com/lakshyadangwal/secure-llm-platform" target="_blank">
+      <div class="project-header">
+        <div class="project-icon">&#128274;</div>
+        <span class="project-arrow">&#8599;</span>
+      </div>
+      <p class="project-name">Secure LLM Platform</p>
+      <p class="project-desc">A security-hardened platform for interacting with Large Language Models. Built with prompt injection protection, input sanitisation, and safe response handling — merging AI capabilities with robust security practices.</p>
+      <span class="project-lang"><span class="lang-dot" style="background:#3572A5"></span>Python</span>
+    </a>
+
+    <a class="project-card fade-in delay-2" href="https://github.com/lakshyadangwal/sketchforge" target="_blank">
+      <div class="project-header">
+        <div class="project-icon">&#127912;</div>
+        <span class="project-arrow">&#8599;</span>
+      </div>
+      <p class="project-name">SketchForge</p>
+      <p class="project-desc">A browser-based creative drawing and sketching tool. Features a canvas interface with drawing tools, colour palettes, and export options — showcasing advanced DOM manipulation and frontend interactivity.</p>
+      <span class="project-lang"><span class="lang-dot" style="background:#f1e05a"></span>JavaScript</span>
+    </a>
+
+    <a class="project-card fade-in delay-3" href="https://github.com/lakshyadangwal/secure-call-server" target="_blank">
+      <div class="project-header">
+        <div class="project-icon">&#128222;</div>
+        <span class="project-arrow">&#8599;</span>
+      </div>
+      <p class="project-name">Secure Call Server</p>
+      <p class="project-desc">A real-time, secure calling server built with WebRTC and Socket.IO. Implements encrypted peer-to-peer communication, call logging, and scam/fraud detection using AI — a full-stack showcase of networking and security.</p>
+      <span class="project-lang"><span class="lang-dot" style="background:#f1e05a"></span>JavaScript</span>
+    </a>
+
+    <a class="project-card fade-in delay-4" href="https://github.com/lakshyadangwal/chatbot-0.2" target="_blank">
+      <div class="project-header">
+        <div class="project-icon">&#129302;</div>
+        <span class="project-arrow">&#8599;</span>
+      </div>
+      <p class="project-name">Chatbot 0.2</p>
+      <p class="project-desc">An upgraded iteration of the original chatbot — featuring improved conversational flow, a refined UI, and smarter response handling. Built to demonstrate growth in both frontend design and AI integration skills.</p>
+      <span class="project-lang"><span class="lang-dot" style="background:#563d7c"></span>CSS / JavaScript</span>
+    </a>
+
+    <a class="project-card fade-in delay-4" href="https://github.com/lakshyadangwal/typing-practice-website" target="_blank">
+      <div class="project-header">
+        <div class="project-icon">&#9000;&#65039;</div>
+        <span class="project-arrow">&#8599;</span>
+      </div>
+      <p class="project-name">Typing Practice Website</p>
+      <p class="project-desc">A fully functional typing speed and accuracy trainer. Features real-time WPM tracking, mistake highlighting, and timed challenges — all crafted in vanilla JavaScript with a clean, distraction-free UI.</p>
+      <span class="project-lang"><span class="lang-dot" style="background:#f1e05a"></span>JavaScript</span>
+    </a>
+
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact-inner">
+    <p class="section-label">Get In Touch</p>
+    <h2 class="section-title fade-in">Let's build something<br>together.</h2>
+    <p class="fade-in delay-1">
+      I'm always open to new opportunities, collaborations, or just a good conversation about tech and design. My inbox is open — feel free to reach out.
+    </p>
+    <a class="btn btn-primary fade-in delay-2" href="mailto:lakshya260107@gmail.com">Say Hello &#8594;</a>
+    <div class="contact-links fade-in delay-3">
+      <a class="contact-item" href="https://github.com/lakshyadangwal" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+        GitHub
+      </a>
+      <a class="contact-item" href="https://www.linkedin.com/in/lakshya-dangwal-42117a30b/" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+      <a class="contact-item" href="mailto:lakshya260107@gmail.com">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Email
+      </a>
+      <a class="contact-item" href="tel:+917011185615">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.17 1.18 2 2 0 012.18 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        +91 7011185615
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>&#169; 2026 Lakshya Dangwal</span>
+  <span>Designed &amp; Built with &#9829;</span>
+  <a href="https://github.com/lakshyadangwal" target="_blank">github.com/lakshyadangwal</a>
+</footer>
+
+<script>
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', function() {
+    navbar.classList.toggle('scrolled', window.scrollY > 30);
+  });
+
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-in').forEach(function(el) {
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
